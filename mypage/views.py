@@ -7,6 +7,23 @@ from .models import *
 from .serializers import *
 
 
+@api_view(['GET', 'PUT'])
+def my_profile_api(request):
+    if request.method == 'GET':
+        profile = get_object_or_404(Profile)
+        serializer = ProfileSerializer(profile, context={'request': request})
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        profile = get_object_or_404(Profile)
+        serializer = ProfileSerializer(profile, data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['POST'])
 def create_receiver(request):
     if request.method == 'POST':
