@@ -14,7 +14,7 @@ def get_receivers(request):
         return Response(serializer.data)
 
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def get_receiver(request, receiver_id):
     if request.method == 'GET':
         receiver = get_object_or_404(Receiver, pk=receiver_id)
@@ -30,3 +30,8 @@ def get_receiver(request, receiver_id):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    
+    elif request.method == 'DELETE':
+        receiver = get_object_or_404(Receiver, pk=receiver_id)
+        receiver.delete()
+        return Response(status = status.HTTP_204_NO_CONTENT)
