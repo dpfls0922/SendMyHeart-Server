@@ -7,7 +7,7 @@ from .views import *
 
 urlpatterns = [
     path('receiver/all/', get_receivers, name='receivers_all'),
-    path('receiver/<int:receiver_id>/', get_receiver, name='receiver_detail'),
+    path('receiver/<int:receiver_id>/', receiver_detail_api, name='receiver_detail'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
