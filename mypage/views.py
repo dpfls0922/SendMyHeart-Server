@@ -6,6 +6,18 @@ from rest_framework.decorators import api_view
 from .models import *
 from .serializers import *
 
+
+@api_view(['POST'])
+def create_receiver(request):
+    if request.method == 'POST':
+        serializer = ReceiverSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET'])
 def get_receivers(request):
     if request.method == 'GET':
@@ -21,18 +33,16 @@ def receiver_detail_api(request, receiver_id):
         serializer = ReceiverSerializer(receiver, context={'request': request})
         return Response(serializer.data)
     
-    
     elif request.method == 'PUT':
         receiver = get_object_or_404(Receiver, pk=receiver_id)
-        serializer = ReceiverSerializer(receiver, data = request.data)
+        serializer = ReceiverSerializer(receiver, data=request.data)
         
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-    
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
         receiver = get_object_or_404(Receiver, pk=receiver_id)
         receiver.delete()
-        return Response(status = status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
