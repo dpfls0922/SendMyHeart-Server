@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import *
+app_name = 'mypage'
 
 urlpatterns = [
     path('profile/', my_profile_api, name='my_profile'),
