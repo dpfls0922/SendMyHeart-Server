@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import SignUpForm
+from .forms import SignUpForm, LoginForm
 from .models import User
+from django.contrib.auth import authenticate, login as auth_login
 
+# 회원가입
 def signup(request):
     # GET 요청 시 HTML 응답
     if request.method == 'GET':
@@ -24,7 +26,8 @@ def signup(request):
             return redirect('additional_info')
         else:
             return redirect('signup')
-        
+
+# 닉네임 설정  
 def additional_info(request):
     if 'user' not in request.session:
         return redirect('signup')
@@ -44,9 +47,24 @@ def additional_info(request):
         form = SignUpForm()
     return render(request, 'additional_info.html', {'form' : form})
         
-
-def login(request):
-    if request.method == 'POST':
-        pass
+# 로그인
+def login_view(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get("email")
+            raw_password = form.cleaned_data.get("password")
+            msg = "올바른 유저 이메일과 패스워드를 입력하세요."
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                pass
+            else:
+                if user.check_password(raw_password):
+                    msg = None
+                    login(request, user)
+                    return redirect('mypage:create_receivers')
     else:
-        pass
+        msg = None
+        form = LoginForm()
+    return render(request, "login.html", {"form": form, "msg": msg})
