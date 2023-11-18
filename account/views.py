@@ -3,7 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm, LoginForm
 from .models import User
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import login, logout
 
 # 회원가입
 def signup(request):
@@ -23,14 +23,14 @@ def signup(request):
                 'phone' : user.phone,
             }
             user.save()
-            return redirect('additional_info')
+            return redirect('account:additional_info')
         else:
-            return redirect('signup')
+            return redirect('account:signup')
 
 # 닉네임 설정  
 def additional_info(request):
     if 'user' not in request.session:
-        return redirect('signup')
+        return redirect('account:signup')
     
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -42,7 +42,7 @@ def additional_info(request):
         user.username = username
         user.save()
 
-        return redirect('login')
+        return redirect('account:login')
     else:
         form = SignUpForm()
     return render(request, 'additional_info.html', {'form' : form})
@@ -64,7 +64,15 @@ def login_view(request):
                     msg = None
                     login(request, user)
                     return redirect('mypage:create_receivers')
+                    # return render(request, "base.html") -> 로그아웃 버튼
     else:
         msg = None
         form = LoginForm()
     return render(request, "login.html", {"form": form, "msg": msg})
+
+# 로그아웃
+def logout_view(request):
+    # 데이터 유효성 검사
+    if request.user.is_authenticated:
+        logout(request)
+    return redirect('account:signup')
