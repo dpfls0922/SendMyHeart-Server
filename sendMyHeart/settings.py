@@ -67,7 +67,7 @@ INSTALLED_APPS = [
     'account',
     'main',
     'mypage',
-    
+
     'rest_framework',
 ]
 

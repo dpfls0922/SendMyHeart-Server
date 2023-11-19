@@ -1,0 +1,19 @@
+<!-- message/edit.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메시지 조회(편집)</title>
+</head>
+<body>
+    <h1>메시지 편집기창..</h1>
+    <form action="{% url 'main:view_message' message.id %}" method="post">
+        {% csrf_token %}
+        <label for="content">메시지:</label>
+        <textarea name="content" id="content" cols="30" rows="5">{{ message.content }}</textarea>
+        <br>
+    </form>
+</body>
+</html>

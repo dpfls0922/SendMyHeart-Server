@@ -1,0 +1,44 @@
+<!-- message/receiver.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>안부 메시지 수신자 선택</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <h1>안부 메시지 수신자 선택</h1>
+    <form action="{% url 'main:today_messages' %}" method="get" id="categoryForm">
+        {% csrf_token %}
+        <label for="receiver">수신자 선택</label>
+        <select name="receiver" id="receiver">
+            {% for receiver in receivers %}
+                <option value="{{ receiver.nickname }}">{{ receiver.nickname }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">계속</button>
+    </form>
+    <script>
+        $(document).ready(function() {
+            // 계속 버튼 클릭 시
+            $("#continueButton").on("click", function() {
+                // 선택한 수신자 값
+                var selectedReceiver = $("#receiver").val();
+                
+                // categoryForm에 선택한 수신자 값을 hidden 필드로 추가
+                $("<input>").attr({
+                    type: "hidden",
+                    name: "category",
+                    value: selectedReceiver
+                }).appendTo("#categoryForm");
+
+                // categoryForm submit
+                $("#categoryForm").submit();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!-- templates/message/category_messages.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category }} Messages</title>
+</head>
+<body>
+    <h1>{{ category }} Messages</h1>
+        <!-- 드롭박스 추가 -->
+        <label for="category">카테고리 선택:</label>
+        <select id="category">
+            <option value="none">선택안함</option>
+            <option value="today">오늘의 안부</option>
+            <option value="simple">간단한 안부</option>
+            <option value="special">특별한 안부</option>
+            <option value="cute">귀여운 안부</option>
+            <!-- 다른 카테고리 옵션 추가 -->
+        </select>
+    <ul>
+        {% for message in messages %}
+        <li><a href="{% url 'main:view_message' message.id %}">{{ message.content }}</a></li>
+        {% endfor %}
+    </ul>
+    <script>
+        // 드롭박스 값이 변경되면 이벤트 발생
+        document.getElementById("category").addEventListener("change", function() {
+            // 선택한 값
+            var selectedCategory = this.value;
+
+            // 선택한 값으로 URL 생성
+            var url = "{% url 'main:category_messages' category='__CATEGORY__' %}".replace('__CATEGORY__', selectedCategory);
+
+            // 페이지 이동
+            window.location.href = url;
+        });
+    </script>
+</body>
+</html>
