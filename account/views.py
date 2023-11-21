@@ -4,7 +4,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm, LoginForm
 from .models import User
 from django.contrib.auth import login, logout
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 # 회원가입
 def signup(request):
     # GET 요청 시 HTML 응답
@@ -26,7 +28,7 @@ def signup(request):
             return redirect('account:additional_info')
         else:
             return redirect('account:signup')
-
+@csrf_exempt
 # 닉네임 설정  
 def additional_info(request):
     if 'user' not in request.session:
@@ -46,7 +48,7 @@ def additional_info(request):
     else:
         form = SignUpForm()
     return render(request, 'additional_info.html', {'form' : form})
-        
+@csrf_exempt
 # 로그인
 def login_view(request):
     if request.method == "POST":
@@ -70,6 +72,7 @@ def login_view(request):
         form = LoginForm()
     return render(request, "login.html", {"form": form, "msg": msg})
 
+@csrf_exempt
 # 로그아웃
 def logout_view(request):
     # 데이터 유효성 검사
