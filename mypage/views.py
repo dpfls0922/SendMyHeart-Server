@@ -3,20 +3,24 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.contrib.auth import get_user_model
 from .models import *
+from account.models import *
 from .serializers import *
 
-
+# 수정
 @api_view(['GET', 'PUT'])
-def my_profile_api(request):
+def my_profile_api(request, pk):
     if request.method == 'GET':
-        profile = get_object_or_404(Profile)
-        serializer = ProfileSerializer(profile, context={'request': request})
+        User = get_user_model()
+        user = get_object_or_404(User, pk=pk)
+        serializer = UserSerializer(user, context={'request': request})
         return Response(serializer.data)
     
     elif request.method == 'PUT':
-        profile = get_object_or_404(Profile)
-        serializer = ProfileSerializer(profile, data=request.data)
+        User = get_user_model()
+        user = get_object_or_404(User, pk=pk)
+        serializer = UserSerializer(user, data=request.data)
         
         if serializer.is_valid():
             serializer.save()
