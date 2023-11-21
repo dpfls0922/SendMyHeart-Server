@@ -28,26 +28,31 @@ def signup(request):
             return redirect('account:additional_info')
         else:
             return redirect('account:signup')
+
 @csrf_exempt
-# 닉네임 설정  
+# 프로필 및 닉네임 설정  
 def additional_info(request):
     if 'user' not in request.session:
         return redirect('account:signup')
     
     if request.method == 'POST':
         username = request.POST.get('username')
-        
+        profile_image = form.cleaned_data['profile_image']
+
         user_info = request.session['user']
         user_info['username'] = username
+        user_info['profile_image'] = profile_image
 
         user = User.objects.get(email=user_info['email'])
         user.username = username
+        user.profile_image = profile_image
         user.save()
 
         return redirect('account:login')
     else:
         form = SignUpForm()
     return render(request, 'additional_info.html', {'form' : form})
+
 @csrf_exempt
 # 로그인
 def login_view(request):
