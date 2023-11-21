@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     'mypage',
 
     'rest_framework',
-    'conrsheaders',
+    'corsheaders',
 ]
 
 AUTH_USER_MODEL = 'account.User'
