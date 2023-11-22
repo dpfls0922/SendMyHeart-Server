@@ -19,10 +19,10 @@ class Message(models.Model):
         verbose_name='카테고리'
     )
     
-    #sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sent_messages', verbose_name='보낸이')
-    #receiver = models.ForeignKey(Receiver, on_delete=models.CASCADE, related_name='received_messages', verbose_name='받는이')
     content = models.TextField(verbose_name='내용')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='작성일')
+    is_recommended = models.BooleanField(default=False, verbose_name='추천 여부')
+
 
     def __str__(self):
         return f'{self.category} - {self.content} ({self.created_at})'
