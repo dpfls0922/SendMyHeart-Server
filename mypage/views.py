@@ -8,18 +8,18 @@ from .models import *
 from account.models import *
 from .serializers import *
 
-# 수정
+
 @api_view(['GET', 'PUT'])
-def my_profile_api(request, pk):
+def my_profile_api(request, user_id):
     if request.method == 'GET':
         User = get_user_model()
-        user = get_object_or_404(User, pk=pk)
+        user = get_object_or_404(User, pk=user_id)
         serializer = UserSerializer(user, context={'request': request})
         return Response(serializer.data)
     
     elif request.method == 'PUT':
         User = get_user_model()
-        user = get_object_or_404(User, pk=pk)
+        user = get_object_or_404(User, pk=user_id)
         serializer = UserSerializer(user, data=request.data)
         
         if serializer.is_valid():
@@ -29,9 +29,13 @@ def my_profile_api(request, pk):
 
 
 @api_view(['POST'])
-def create_receiver(request):
+def create_receiver(request, user_id):
     if request.method == 'POST':
-        serializer = ReceiverSerializer(data=request.data)
+        User = get_user_model()
+        user = get_object_or_404(User, pk=user_id)
+        request.data['sender'] = user.pk
+        
+        serializer = ReceiverSerializer(data=request.data, context={'request': request})
         
         if serializer.is_valid():
             serializer.save()
@@ -40,23 +44,34 @@ def create_receiver(request):
 
 
 @api_view(['GET'])
-def get_receivers(request):
+def get_receivers(request, user_id):
     if request.method == 'GET':
-        receiver = Receiver.objects.all().order_by('-id')
+        User = get_user_model()
+        user = get_object_or_404(User, pk=user_id)
+        receiver = Receiver.objects.filter(sender=user).order_by('-id')
+
         serializer = ReceiverSerializer(receiver, many=True, context={'request': request})
         return Response(serializer.data)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def receiver_detail_api(request, receiver_id):
+def receiver_detail_api(request, user_id, receiver_id):
     if request.method == 'GET':
-        receiver = get_object_or_404(Receiver, pk=receiver_id)
+        User = get_user_model()
+        user = get_object_or_404(User, pk=user_id)
+        receivers = Receiver.objects.filter(sender=user)
+            
+        receiver = get_object_or_404(receivers, pk=receiver_id)
         serializer = ReceiverSerializer(receiver, context={'request': request})
         return Response(serializer.data)
     
     elif request.method == 'PUT':
-        receiver = get_object_or_404(Receiver, pk=receiver_id)
-        serializer = ReceiverSerializer(receiver, data=request.data)
+        User = get_user_model()
+        user = get_object_or_404(User, pk=user_id)
+        receivers = Receiver.objects.filter(sender=user)
+        
+        receiver = get_object_or_404(receivers, pk=receiver_id)
+        serializer = ReceiverSerializer(receiver, data=request.data, context={'request': request})
         
         if serializer.is_valid():
             serializer.save()
@@ -64,6 +79,10 @@ def receiver_detail_api(request, receiver_id):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
-        receiver = get_object_or_404(Receiver, pk=receiver_id)
+        User = get_user_model()
+        user = get_object_or_404(User, pk=user_id)
+        receivers = Receiver.objects.filter(sender=user)
+        
+        receiver = get_object_or_404(receivers, pk=receiver_id)
         receiver.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
