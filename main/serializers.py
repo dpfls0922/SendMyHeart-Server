@@ -1,7 +1,7 @@
 # your_app/serializers.py
 
 from rest_framework import serializers
-from mypage.models import Receiver, Profile
+from mypage.models import Receiver
 from .models import Message
 
 class ReceiverSerializer(serializers.ModelSerializer):
