@@ -8,12 +8,6 @@ class UserSerializer(ModelSerializer):
         model = User
         fields = '__all__'
 
-class ProfileSerializer(ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = '__all__'
-
-
 class ReceiverSerializer(ModelSerializer):
     class Meta:
         model = Receiver
