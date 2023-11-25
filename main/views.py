@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.db import models
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from mypage.models import Receiver, Profile
+from mypage.models import Receiver
 from .serializers import ReceiverSerializer
 from rest_framework import serializers
 from .models import Message

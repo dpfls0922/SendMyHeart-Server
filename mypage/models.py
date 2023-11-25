@@ -1,18 +1,9 @@
 from django.db import models
-
-
-class Profile(models.Model):
-    image = models.ImageField(verbose_name='이미지', blank=True, default='/default.jpg')
-    email = models.EmailField(verbose_name='이메일', max_length=128)
-    password = models.CharField(verbose_name='비밀번호', max_length=20)
-    nickname = models.CharField(verbose_name="닉네임", max_length=16)
-    phone_number = models.CharField(verbose_name="전화번호", max_length=11)
-    
-    def __str__(self):
-        return f'[{self.nickname}] 프로필'
+from account.models import User
 
 
 class Receiver(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(verbose_name='이미지', blank=True, default='')
     nickname = models.CharField(verbose_name='닉네임', max_length=16)
     anniversary_yy = models.IntegerField(verbose_name="기념일 연")

@@ -1,5 +1,5 @@
 from django.db import models
-from mypage.models import Receiver, Profile
+from mypage.models import Receiver
 from rest_framework import serializers
 
 # Create your models here.
