@@ -3,7 +3,10 @@
 <hr/>
 
 ## ✔️서비스 소개 
+당신은 소중한 사람에게 안부 인사를 자주 건네고 있나요?
   ![image](https://github.com/Likelion-at-SMWU-11th/SendMyHeart-Server/assets/102652293/e9645b4c-1be6-4bd4-9e4e-325605e76122)
+  <img width="500" height="400" src="https://github.com/dpfls0922/SendMyHeart-Server/assets/83818069/31f60c7d-b506-454d-9de7-7d4ad16b49c6">
+  <img width="500" height="400" src="https://github.com/dpfls0922/SendMyHeart-Server/assets/83818069/8626a5cf-e8ca-4eef-9c6a-3b029c437db5">
 
   <br>안부 전하기 서비스</br>
 
