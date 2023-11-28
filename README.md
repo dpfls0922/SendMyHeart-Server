@@ -32,7 +32,7 @@
       <tr width="100%">
        <td  align="center"><p>메인페이지</p><p>안부친구 고르기</p><p>메세지 리스트 조회</p></td>
        <td  align="center"><p>회원가입</p><p>로그인</p><p>로그아웃</p></td>
-       <td  align="center"><p>마이페이지</p><p>안부친구 추가</p><p>안부친구 개별보</p></td>
+       <td  align="center"><p>마이페이지</p><p>안부친구 추가</p><p>안부친구 개별보기</p></td>
      </tr>
   </table>
 
